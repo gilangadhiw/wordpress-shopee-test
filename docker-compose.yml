@@ -1,0 +1,36 @@
+version: "3"
+services:
+  wordpress:
+    image: wordpress
+    container_name: wordpress
+    ports:
+      - 81:80
+    restart: unless-stopped
+    volumes:
+      - volume_wordpress:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_USER: gilang
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: password
+
+  database:
+    image: mysql:5.7
+    container_name: database
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+      MYSQL_PASSWORD: password
+      MYSQL_USER: gilang
+    volumes:
+      - volume_mysql:/var/lib/
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+volumes:
+  volume_wordpress:
+  volume_mysql:
